@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { AppComponent } from './app.component'
 import { PathViewerComponent } from './path-viewer/path-viewer.component'
 import { FormsModule, ReactiveFormsModule } from "@angular/forms"
+import { HttpClientModule } from "@angular/common/http"
 
 @NgModule({
     declarations: [
@@ -14,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms"
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
+        HttpClientModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
