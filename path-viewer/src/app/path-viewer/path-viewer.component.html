@@ -1,0 +1,13 @@
+<canvas #canvas id="canvas" style="height: 90%; width: 100%"></canvas>
+
+<input #slider style="width: 100%" type="range" min="0" max="1" step="0.002" (input)="xValue = asAny($event).target!.valueAsNumber!; setTimeValue(asAny($event).target!.valueAsNumber!)" [ngModel]="xValue">
+
+<span>
+    <select [(ngModel)]="playSpeedMultiplier">
+        <option *ngFor="let value of speedMultipliers" [ngValue]="value">{{ value }}×</option>
+    </select>
+    <button (click)="animationPlaying ? stopAction() : startAction()">{{ animationPlaying ? 'Stop' : 'Start' }}</button>
+    <input type="range" min="0" max="8" step="1" [(ngModel)]="tailLengthSelection">
+</span>
+
+

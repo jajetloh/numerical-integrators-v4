@@ -1,0 +1,10 @@
+<button (click)="selectTwoSineThings()">Two Sine Things</button>
+<button (click)="selectThreeCircles()">Three Circles</button>
+
+<div>
+    <input type="file" class="c-file-input" (change)="onFileSelected($event)" #fileUpload>
+    {{ uploadedFileName || 'No file uploaded yet' }}
+    <button (click)="fileUpload.click()">Attach File</button>
+</div>
+
+<app-path-viewer [trajectorySpecs]="selectedSpecs"></app-path-viewer>
