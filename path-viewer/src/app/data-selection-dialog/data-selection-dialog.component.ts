@@ -13,6 +13,7 @@ export class DataSelectionDialogComponent {
         private dialogRef: MatDialogRef<DataSelectionDialogComponent>
     ) {
     }
+
     dataList = [
         {
             name: '4-Body 3D - Case 7',
@@ -23,6 +24,16 @@ export class DataSelectionDialogComponent {
             name: '4-Body 3D - Case 9',
             img: 'assets/4-Body 3D - Case 9.png',
             url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%209.csv',
+        },
+        {
+            name: '4-Body 3D - Case 15',
+            img: 'assets/4-Body 3D - Case 15.png',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%2015.csv',
+        },
+        {
+            name: '4-Body 3D - Case 16',
+            img: 'assets/4-Body 3D - Case 16.png',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%2016.csv',
         },
         {
             name: '4-Body 3D - Case 61',
