@@ -4,6 +4,8 @@ import { range } from "lodash-es"
 import { Papa } from "ngx-papaparse"
 import { HttpClient } from "@angular/common/http"
 import { firstValueFrom, tap } from "rxjs"
+import { MatDialog } from "@angular/material/dialog"
+import { DataSelectionDialogComponent } from "./data-selection-dialog/data-selection-dialog.component"
 
 @Component({
     selector: 'app-root',
@@ -15,8 +17,31 @@ export class AppComponent {
     selectedSpecs: TrajectorySpec[] = []
     uploadedFileName = ''
 
-    constructor(private papa: Papa, private http: HttpClient) {
-        this.selectTwoSineThings()
+    showLoading = false
+
+    constructor(
+        private papa: Papa,
+        private http: HttpClient,
+        private dialog: MatDialog,
+    ) {
+        this.selectThreeCircles()
+    }
+
+    openDialog() {
+        const dialogRef = this.dialog.open(DataSelectionDialogComponent, {
+            width: '80%',
+            height: '80%',
+            enterAnimationDuration: '200ms',
+            exitAnimationDuration: '200ms',
+        })
+        dialogRef.afterClosed().subscribe(result => {
+            if (typeof result === 'string') {
+                this.showLoading = true
+                firstValueFrom(this.http.get(result, { responseType: 'text' }))
+                    .then(data => { this.parseFileAndStart(data) })
+                    .finally(() => this.showLoading = false)
+            }
+        })
     }
 
     selectTwoSineThings() {
@@ -35,35 +60,27 @@ export class AppComponent {
 
     selectThreeCircles() {
         const n = 300
+        const r = 0.5
         this.selectedSpecs = [
             {
-                coordinates: range(n + 1).map(x => [Math.sin(2 * Math.PI * x / n), Math.cos(2 * Math.PI * x / n), 0])
+                coordinates: range(n + 1).map(x => [r * Math.sin(2 * 2 * Math.PI * x / n), r * Math.cos(2 * 2 * Math.PI * x / n), 0])
             },
             {
-                coordinates: range(n + 1).map(x => [0, Math.sin(2 * Math.PI * x / n), Math.cos(2 * Math.PI * x / n)])
+                coordinates: range(n + 1).map(x => [0, r * Math.sin(2 * 2 * Math.PI * x / n), r * Math.cos(2 * 2 * Math.PI * x / n)])
             },
             {
-                coordinates: range(n + 1).map(x => [Math.cos(2 * Math.PI * x / n), 0, Math.sin(2 * Math.PI * x / n)])
+                coordinates: range(n + 1).map(x => [r * Math.cos(2 * 2 * Math.PI * x / n), 0, r * Math.sin(2 * 2 * Math.PI * x / n)])
+            },
+            {
+                coordinates: range(n + 1).map(x => [r * Math.sin(2 * 2 * Math.PI * x / n + Math.PI), r * Math.cos(2 * 2 * Math.PI * x / n + Math.PI), 0])
+            },
+            {
+                coordinates: range(n + 1).map(x => [0, r * Math.sin(2 * 2 * Math.PI * x / n + Math.PI), r * Math.cos(2 * 2 * Math.PI * x / n + Math.PI)])
+            },
+            {
+                coordinates: range(n + 1).map(x => [r * Math.cos(2 * 2 * Math.PI * x / n + Math.PI), 0, r * Math.sin(2 * 2 * Math.PI * x / n + Math.PI)])
             },
         ]
-    }
-
-    selectCase7() {
-        firstValueFrom(this.http.get('https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%207.csv', { responseType: 'text' })).then(data => {
-            this.parseFileAndStart(data)
-        })
-    }
-
-    selectCase9() {
-        firstValueFrom(this.http.get('https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%209.csv', { responseType: 'text' })).then(data => {
-            this.parseFileAndStart(data)
-        })
-    }
-
-    selectCase61() {
-        firstValueFrom(this.http.get('https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%2061.csv', { responseType: 'text' })).then(data => {
-            this.parseFileAndStart(data)
-        })
     }
 
     onFileSelected(event: any) {
