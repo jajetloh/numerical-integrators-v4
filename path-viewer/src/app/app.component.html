@@ -1,9 +1,10 @@
-<span>
-    <button mat-raised-button color='primary' (click)="openDialog()">Select Case</button>
-    <button mat-raised-button color='primary' (click)="fileUpload.click()">Attach File</button>
+<div style="display: flex; justify-content: left">
+    <div style="background: slategray; padding-top: 3px; padding-left: 12px; padding-right: 12px; margin-bottom: -15px"><h1>PathViewer</h1></div>
+    <button mat-raised-button color='primary' (click)="openDialog()" style="border-radius: 0">Select Case</button>
+    <button mat-raised-button color='primary' (click)="fileUpload.click()" style="border-radius: 0">Attach File</button>
     <input type="file" class="c-file-input" (change)="onFileSelected($event)" #fileUpload>
     {{ uploadedFileName }}
-</span>
+</div>
 <app-path-viewer [trajectorySpecs]="selectedSpecs"></app-path-viewer>
 <div *ngIf="showLoading" style="background: rgba(0,0,0,0.3); position: fixed; width: 100%; height: 100%; top: 0; left:0; z-index: 9999">
     <div style="display: flex; justify-content: center; align-items: center; height: 100%">

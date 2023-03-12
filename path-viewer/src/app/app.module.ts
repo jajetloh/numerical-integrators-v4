@@ -11,6 +11,10 @@ import { DataSelectionDialogComponent } from './data-selection-dialog/data-selec
 import { MatTableModule } from "@angular/material/table"
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner"
 import { MatButtonModule } from "@angular/material/button"
+import { MatSelectModule } from "@angular/material/select"
+import { MatInputModule } from "@angular/material/input"
+import { MatSliderModule } from "@angular/material/slider";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 
 @NgModule({
     declarations: [
@@ -28,6 +32,10 @@ import { MatButtonModule } from "@angular/material/button"
         MatTableModule,
         MatProgressSpinnerModule,
         MatButtonModule,
+        MatSelectModule,
+        MatInputModule,
+        MatSliderModule,
+        FontAwesomeModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

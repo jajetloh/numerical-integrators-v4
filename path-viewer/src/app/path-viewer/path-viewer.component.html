@@ -1,13 +1,31 @@
-<canvas #canvas id="canvas" style="height: 90%; width: 100%"></canvas>
+<canvas #canvas id="canvas" style="height: 80%; width: 100%"></canvas>
+<span style="display: flex; justify-content: space-between; align-items: center; margin-left: 20px; margin-right: 20px">
+    <button mat-flat-button color="primary" (click)="animationPlaying ? stopAction() : startAction()" style="width: 30px; margin-right: 5px">
+        <fa-icon [icon]="animationPlaying ? faPlay : faPause" style="color: black"></fa-icon>
+    </button>
+    <mat-slider min="0" max="1" step="0.001" style="width: calc(100% - 30px); margin-left: 25px; margin-right: 25px">
+        <input matSliderThumb (input)="xValue = asAny($event).target!.valueAsNumber!; setTimeValue(asAny($event).target!.valueAsNumber!)" [ngModel]="xValue">
+    </mat-slider>
+    <mat-slider discrete showTickMarks min="0" max="6" step="1" [displayWith]="playSpeedIndexToString">
+        <input matSliderThumb [(ngModel)]="playSpeedMultiplierIndex">
+    </mat-slider>
+</span>
 
-<input #slider style="width: 100%" type="range" min="0" max="1" step="0.002" (input)="xValue = asAny($event).target!.valueAsNumber!; setTimeValue(asAny($event).target!.valueAsNumber!)" [ngModel]="xValue">
+<span style="display: flex; justify-content: space-between; align-items: center; margin-left: 20px; margin-right: 20px">
+    <span>
+        Tail:
+        <mat-slider discrete showTickMarks min="0" max="8" step="1" [displayWith]="tailLengthIndexToString">
+            <input matSliderThumb [(ngModel)]="tailLengthIndex">
+        </mat-slider>
+    </span>
 
-<span>
-    <select [(ngModel)]="playSpeedMultiplier">
-        <option *ngFor="let value of speedMultipliers" [ngValue]="value">{{ value }}×</option>
-    </select>
-    <button (click)="animationPlaying ? stopAction() : startAction()">{{ animationPlaying ? 'Stop' : 'Start' }}</button>
-    <input type="range" min="0" max="8" step="1" [(ngModel)]="tailLengthSelection">
+    <mat-form-field appearance="fill">
+        <mat-label>Style</mat-label>
+        <select matNativeControl [(ngModel)]="styleSelected">
+            <option value="normal">Normal</option>
+            <option value="chromatic" selected>Chromatic</option>
+        </select>
+    </mat-form-field>
 </span>
 
 

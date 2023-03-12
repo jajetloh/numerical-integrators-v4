@@ -14,7 +14,8 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { NonUniformCurvePath } from "../three-classes/non-uniform-curve-path"
 import { NonUniformTubeGeometry } from "../three-classes/non-uniform-tube-geometry"
-import { cloneDeep } from 'lodash-es'
+import { bind, cloneDeep } from 'lodash-es'
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons'
 
 export interface TrajectorySpec {
     coordinates: [number, number, number][]
@@ -91,7 +92,14 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
 
         this.trajectories.forEach(t => t.destroy())
 
+        // Branches to be added here to define colouring of trajectories upon initialisation
         this._trajectorySpecs = cloneDeep(ts)
+        switch (this.styleSelected) {
+            case 'normal':
+                break
+            case 'chromatic':
+                this._trajectorySpecs.forEach((t, i) => t.colour = COLOUR_SCHEME[i])
+        }
         this.trajectories = this._trajectorySpecs.map(t => new Trajectory(t))
 
         if (this.afterViewInitCompleted) {
@@ -121,21 +129,84 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
     animationPlayIntervalId: number | null = null
     xValue = 0
 
-    playSpeedMultiplier = 1
-    speedMultipliers = [0.1, 0.2, 0.5, 1, 2, 5, 10]
-
-    tailLengthSelection: string = '4'
-    tailLengthMap: { [k: string]: number } = {
-        '0': 1,
-        '1': 0.5,
-        '2': 0.32,
-        '3': 0.16,
-        '4': 0.08,
-        '5': 0.04,
-        '6': 0.02,
-        '7': 0.01,
-        '8': 0,
+    speedMultipliersMap: {[k: number]: number} = {
+        0: 0.1,
+        1: 0.2,
+        2: 0.5,
+        3: 1,
+        4: 2,
+        5: 5,
+        6: 10,
     }
+    _playSpeedMultiplierIndex = 3
+    playSpeedMultiplier = this.speedMultipliersMap[this._playSpeedMultiplierIndex]
+    get playSpeedMultiplierIndex() {
+        return this._playSpeedMultiplierIndex
+    }
+    set playSpeedMultiplierIndex(index: number) {
+        this._playSpeedMultiplierIndex = index
+        this.playSpeedMultiplier = this.speedMultipliersMap[index]
+    }
+
+    _tailLengthIndex = 4
+    tailLengthMap: {[k: number]: number} = {
+        0: 1,
+        1: 0.5,
+        2: 0.32,
+        3: 0.16,
+        4: 0.08,
+        5: 0.04,
+        6: 0.02,
+        7: 0.01,
+        8: 0,
+    }
+    tailLengthValue = this.tailLengthMap[this._tailLengthIndex]
+    get tailLengthIndex() {
+        return this._tailLengthIndex
+    }
+    set tailLengthIndex(value) {
+        this._tailLengthIndex = value
+        this.tailLengthValue = this.tailLengthMap[value]
+    }
+
+    private _styleSelected: string = 'chromatic'
+    get styleSelected() {
+        return this._styleSelected
+    }
+
+    // This should be called upon users changing the style - not when the style needs to be found upon initialising
+    set styleSelected(value: string) {
+        this._styleSelected = value
+
+        switch (this._styleSelected) {
+            case 'normal':
+                this.trajectories.forEach(t => {
+                    t.ballMesh.material = new MeshNormalMaterial()
+                    t.pathMesh.material = new MeshNormalMaterial()
+                })
+                break
+            case 'chromatic':
+                this.trajectories.forEach((t, index) => {
+                    t.ballMesh.material = new MeshLambertMaterial({ color: COLOUR_SCHEME[index] })
+                    t.pathMesh.material = new MeshLambertMaterial({ color: COLOUR_SCHEME[index] })
+                })
+        }
+    }
+
+    faPlay = faPlay
+    faPause = faPause
+
+    playSpeedIndexToString = bind((i: number) => `${this.speedMultipliersMap[i]}×`, this)
+    tailLengthIndexToString = bind((i: number) => {
+        switch (i) {
+            case 0:
+                return 'Full Tail'
+            case 8:
+                return 'No Tail'
+            default:
+                return `${this.tailLengthMap[i] * 100}% Tail`
+        }
+    }, this)
 
     constructor() {
     }
@@ -211,7 +282,7 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
     setTimeValue(t: number) {
         this.trajectories.forEach(trajectory => {
             // If t = 1, use last index
-            const lastPointIndex = Math.round((t - this.tailLengthMap[this.tailLengthSelection]) * trajectory.pathGeometry.index!.count / 36 / 16 * 3 * 2)
+            const lastPointIndex = Math.round((t - this.tailLengthValue) * trajectory.pathGeometry.index!.count / 36 / 16 * 3 * 2)
             const newPointIndex = t < 1 ? Math.round(t * trajectory.pathGeometry.index!.count / 36 / 16 * 3 * 2) : (trajectory.coordinates.length - 1)
             const deltaLastToNew = newPointIndex - lastPointIndex
             trajectory.pathGeometry.setDrawRange(
