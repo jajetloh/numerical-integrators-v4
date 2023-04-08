@@ -26,6 +26,13 @@
             <option value="chromatic" selected>Chromatic</option>
         </select>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Trajectory Type</mat-label>
+        <select matNativeControl [(ngModel)]="trajectoryTypeSelected">
+            <option value="n-body">N-Body</option>
+            <option value="pendulum" selected>Pendulum</option>
+        </select>
+    </mat-form-field>
 </span>
 
 

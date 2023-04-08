@@ -7,7 +7,7 @@ import {
     Path,
     PerspectiveCamera,
     Scene,
-    SphereGeometry,
+    SphereGeometry, TubeGeometry,
     Vector3,
     WebGLRenderer
 } from 'three'
@@ -33,6 +33,11 @@ export const COLOUR_SCHEME = [
     '#f781bf',
     '#999999',
 ]
+
+enum TrajectoryType {
+    NBody = 'n-body',
+    Pendulum = 'pendulum',
+}
 
 class Trajectory implements TrajectorySpec {
 
@@ -91,6 +96,7 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
         if (this.afterViewInitCompleted) this.stopAction()
 
         this.trajectories.forEach(t => t.destroy())
+        this.destroySpecialObjects()
 
         // Branches to be added here to define colouring of trajectories upon initialisation
         this._trajectorySpecs = cloneDeep(ts)
@@ -103,9 +109,14 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
         this.trajectories = this._trajectorySpecs.map(t => new Trajectory(t))
 
         if (this.afterViewInitCompleted) {
+            this.initialiseAnimation()
+        }
+
+        this.constructSpecialObjects(this.trajectoryTypeSelected)
+
+        if (this.afterViewInitCompleted) {
             this.xValue = 0
             this.setTimeValue(this.xValue)
-            this.initialiseAnimation()
             this.startAction()
         }
     }
@@ -115,6 +126,9 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
     }
 
     private trajectories: Trajectory[] = []
+    private specialObjects = {
+        pendulum: [] as Mesh[]
+    }
 
     @ViewChild('canvas') private canvasRef?: ElementRef
     @ViewChild('slider') slider?: any
@@ -190,6 +204,63 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
                     t.ballMesh.material = new MeshLambertMaterial({ color: COLOUR_SCHEME[index] })
                     t.pathMesh.material = new MeshLambertMaterial({ color: COLOUR_SCHEME[index] })
                 })
+        }
+    }
+
+    private _trajectoryTypeSelected: TrajectoryType = TrajectoryType.NBody
+    get trajectoryTypeSelected(): TrajectoryType {
+        return this._trajectoryTypeSelected
+    }
+    set trajectoryTypeSelected(value: string) {
+        if (this._trajectoryTypeSelected === value) return
+
+        this._trajectoryTypeSelected = (value as TrajectoryType)
+
+        // Clear existing meshes in specialObjects
+        this.destroySpecialObjects()
+
+        // Create new special objects if applicable
+        this.constructSpecialObjects(this.trajectoryTypeSelected)
+    }
+
+    destroySpecialObjects() {
+        this.specialObjects.pendulum.forEach(m => {
+            this.scene.remove(m)
+            m.geometry.dispose();
+            (m.material as Material).dispose()
+        })
+        this.specialObjects.pendulum = []
+    }
+
+    constructSpecialObjects(trajectoryType: TrajectoryType) {
+        switch (trajectoryType) {
+            case TrajectoryType.Pendulum:
+                // For each body on the pendulum, we create an arm. Arm 1 is for body 1, Arm 2 is for body 2 etc.
+                // Display arms by using setDrawRange on sections at a time
+                const originAndTrajectoryCoords: [number, number, number][][] = [
+                    this.trajectories[0].coordinates.map(() => [0, 0, 0]),
+                    ...this.trajectories.map(t => t.coordinates),
+                ]
+                originAndTrajectoryCoords.forEach((coords, i, a) => {
+                    // Each iter requires a first and second set of coords - so skip the last
+                    if (i === a.length - 1) return
+
+                    const nextCoords = a[i+1]
+                    const mesh = new Mesh(
+                        new TubeGeometry(
+                            new LineCurve3(
+                                new Vector3(...coords[i]),
+                                new Vector3(...nextCoords[i])
+                            ), 1, 0.01, 16, false,
+                        ),
+                        new MeshNormalMaterial()
+                    )
+                    this.specialObjects.pendulum.push(mesh)
+                    this.scene.add(mesh)
+                })
+                return
+            case TrajectoryType.NBody:
+                return
         }
     }
 
@@ -281,9 +352,9 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
 
     setTimeValue(t: number) {
         this.trajectories.forEach(trajectory => {
-            // If t = 1, use last index
             const lastPointIndex = Math.round((t - this.tailLengthValue) * trajectory.pathGeometry.index!.count / 36 / 16 * 3 * 2)
-            const newPointIndex = t < 1 ? Math.round(t * trajectory.pathGeometry.index!.count / 36 / 16 * 3 * 2) : (trajectory.coordinates.length - 1)
+            // If t = 1, use last index
+            const newPointIndex = Math.min(Math.round(t * trajectory.pathGeometry.index!.count / 36 / 16 * 3 * 2), (trajectory.coordinates.length - 1))
             const deltaLastToNew = newPointIndex - lastPointIndex
             trajectory.pathGeometry.setDrawRange(
                 lastPointIndex * 16 * 3 * 2,
@@ -294,6 +365,28 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
             const [dx, dy, dz] = trajectory.ballFirstVertexOffset
             trajectory.ballGeometry.translate(x1 - x0 + dx, y1 - y0 + dy, z1 - z0 + dz)
         })
+
+        if (this.trajectoryTypeSelected === TrajectoryType.Pendulum) {
+            const originAndTrajectoryCoords: [number, number, number][][] = [
+                this.trajectories[0].coordinates.map(() => [0, 0, 0]),
+                ...this.trajectories.map(t => t.coordinates),
+            ]
+
+            originAndTrajectoryCoords.forEach((coords, index, a) => {
+                if (index === a.length - 1) return
+
+                const newPointIndex2 = t < 1 ? Math.round(t * coords.length) : (coords.length - 1)
+
+                const nextCoords = a[index+1]
+
+                const newTube = new TubeGeometry(new LineCurve3(
+                    new Vector3(...coords[newPointIndex2]),
+                    new Vector3(...nextCoords[newPointIndex2]),
+                ), 1, 0.01, 16, false)
+                this.specialObjects.pendulum[index].geometry.setAttribute('position', newTube.getAttribute('position'))
+                newTube.dispose()
+            })
+        }
     }
 
     startAction() {
