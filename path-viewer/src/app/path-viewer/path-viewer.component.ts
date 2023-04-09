@@ -306,7 +306,7 @@ export class PathViewerComponent implements OnInit, AfterViewInit {
 
         // Camera
         this.camera = new PerspectiveCamera(75, this.canvas.clientWidth / this.canvas.clientHeight, 0.001, 200)
-        this.camera.position.set(0, 0.7, 1.2)
+        this.camera.position.set(0, 0, 2)
         this.camera.lookAt(0, 0, 0)
 
         // Controls
