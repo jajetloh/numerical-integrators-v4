@@ -15,6 +15,7 @@ import { MatSelectModule } from "@angular/material/select"
 import { MatInputModule } from "@angular/material/input"
 import { MatSliderModule } from "@angular/material/slider";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { MatTabsModule } from "@angular/material/tabs"
 
 @NgModule({
     declarations: [
@@ -36,6 +37,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
         MatInputModule,
         MatSliderModule,
         FontAwesomeModule,
+        MatTabsModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

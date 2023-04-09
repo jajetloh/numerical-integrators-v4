@@ -1,5 +1,4 @@
 import { Component } from '@angular/core'
-import { DialogRef } from "@angular/cdk/dialog"
 import { MatDialogRef } from "@angular/material/dialog"
 
 @Component({
@@ -14,7 +13,7 @@ export class DataSelectionDialogComponent {
     ) {
     }
 
-    dataList = [
+    nBodyCasesList = [
         {
             name: '4-Body 3D - Case 7',
             img: 'assets/4-Body 3D - Case 7.png',
@@ -39,6 +38,79 @@ export class DataSelectionDialogComponent {
             name: '4-Body 3D - Case 61',
             img: 'assets/4-Body 3D - Case 61.png',
             url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/4-Body%203D%20-%20Case%2061.csv',
+        },
+    ]
+
+    pendulumsCaseList = [
+        {
+            name: 'Drop: -75 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 175.png',
+            url: '',
+        },
+        {
+            name: 'Drop: -60 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 174.png',
+            url: '',
+        },
+        {
+            name: 'Drop: -30 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 173.png',
+            url: '',
+        },
+        {
+            name: 'Drop: 0 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 169.png',
+            url: '',
+        },
+        {
+            name: 'Drop: +30 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 170.png',
+            url: '',
+        },
+        {
+            name: 'Drop: +60 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 171.png',
+            url: '',
+        },
+        {
+            name: 'Drop: +75 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 172.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: -75 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 178.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: -60 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 177.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: -30 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 176.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: 0 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 165.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: +30 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 166.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: +60 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 167.png',
+            url: '',
+        },
+        {
+            name: 'Backflip: +75 degrees',
+            img: 'assets/2-Body Spherical Pendulum - Case 168.png',
+            url: '',
         },
     ]
 
