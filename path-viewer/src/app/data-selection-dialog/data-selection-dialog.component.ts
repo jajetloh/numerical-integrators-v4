@@ -15,11 +15,16 @@ export class DataSelectionDialogComponent {
 
     specialCasesList = [
         {
+            name: '3-Body 2D - Figure 8',
+            img: 'assets/3-Body 2D - Figure 8.png',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/3-Body%202D%20-%20Figure%208.csv',
+        },
+        {
             name: '3-Body 2D - Broucke A 6',
             img: 'assets/3-Body 2D - Broucke A 6.png',
             url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/3-Body%202D%20-%20Broucke%20A%206.csv'
             // http://three-body.ipb.ac.rs/bsol.php?id=5
-        }
+        },
     ]
 
     nBodyCasesList = [
