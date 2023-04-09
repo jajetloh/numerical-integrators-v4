@@ -45,72 +45,72 @@ export class DataSelectionDialogComponent {
         {
             name: 'Drop: -75 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 175.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20175.csv',
         },
         {
             name: 'Drop: -60 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 174.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20174.csv',
         },
         {
             name: 'Drop: -30 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 173.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20173.csv',
         },
         {
             name: 'Drop: 0 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 169.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20169.csv',
         },
         {
             name: 'Drop: +30 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 170.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20170.csv',
         },
         {
             name: 'Drop: +60 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 171.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20171.csv',
         },
         {
             name: 'Drop: +75 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 172.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20172.csv',
         },
         {
             name: 'Backflip: -75 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 178.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20178.csv',
         },
         {
             name: 'Backflip: -60 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 177.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20177.csv',
         },
         {
             name: 'Backflip: -30 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 176.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20176.csv',
         },
         {
             name: 'Backflip: 0 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 165.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20165.csv',
         },
         {
             name: 'Backflip: +30 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 166.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20166.csv',
         },
         {
             name: 'Backflip: +60 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 167.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20167.csv',
         },
         {
             name: 'Backflip: +75 degrees',
             img: 'assets/2-Body Spherical Pendulum - Case 168.png',
-            url: '',
+            url: 'https://raw.githubusercontent.com/jajetloh/numerical-integrators-v4/main/data/2-Spherical%20Pendulum%203D%20-%20Case%20168.csv',
         },
     ]
 
